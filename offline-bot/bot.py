@@ -1,20 +1,18 @@
 import os
 import asyncio
+import threading
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-# Optional: keep_alive for Replit / free hosts
+# Optional keep_alive for free hosts
 from webserver import keep_alive
-KEEP_ALIVE_AVALIABLE=True
-keep_alive()
-
+KEEP_ALIVE_AVAILABLE = True
 
 # ──────────────────────────────
 # ENV + CONFIG
 # ──────────────────────────────
 load_dotenv()
-
 TOKEN = os.getenv("DISCORD_TOKEN")
 OWNER_ID = int(os.getenv("OWNER_ID"))
 
@@ -57,14 +55,11 @@ async def on_ready():
     print(f"Logged in as: {bot.user}")
     print(f"User ID: {bot.user.id}")
     print("────────────────────────────────")
-
-    # Sync slash commands
     try:
         synced = await bot.tree.sync()
         print(f"Slash commands synced: {len(synced)}")
     except Exception as e:
         print(f"[ERROR] Slash sync failed: {e}")
-
     print("Bot is fully ready.")
 
 # ──────────────────────────────
@@ -103,6 +98,5 @@ async def main():
 
 if __name__ == "__main__":
     if KEEP_ALIVE_AVAILABLE:
-        keep_alive()
+        threading.Thread(target=keep_alive, daemon=True).start()
     asyncio.run(main())
-
