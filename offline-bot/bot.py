@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 # Optional: keep_alive for Replit / free hosts
 from webserver import keep_alive
+KEEP_ALIVE_AVALIABLE=True
 keep_alive()
 
 
@@ -104,3 +105,4 @@ if __name__ == "__main__":
     if KEEP_ALIVE_AVAILABLE:
         keep_alive()
     asyncio.run(main())
+
