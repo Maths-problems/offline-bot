@@ -55,15 +55,13 @@ class Verification(commands.Cog):
                 await interaction.response.send_message("✅ You are already verified.", ephemeral=True)
                 return
 
-            # Assign the role
+            # Assign the role ONLY (no per-member channel overrides)
             await interaction.user.add_roles(verified_role)
 
-            # Unlock all channels except the verification channel
-            for channel in interaction.guild.text_channels:
-                if channel.id != verify_channel.id:
-                    await channel.set_permissions(interaction.user, read_messages=True, send_messages=True)
-
-            await interaction.response.send_message("✅ You are now verified!", ephemeral=True)
+            await interaction.response.send_message(
+                "✅ You are now verified! Access to the server is controlled via your role.",
+                ephemeral=True
+            )
 
         button.callback = button_callback
         view.add_item(button)
